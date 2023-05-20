@@ -1,4 +1,4 @@
-﻿namespace DefaultNamespace;
+﻿namespace Infrastructure.Messaging;
 
 public class Message
 {

@@ -1,4 +1,6 @@
-﻿namespace ShipManagementAPI.Commands;
+﻿using Infrastructure.Messaging;
+
+namespace ShipManagementAPI.Commands;
 
 public class RegisterShip : Command
 {

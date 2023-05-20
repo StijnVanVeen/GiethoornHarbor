@@ -17,6 +17,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ShipManagementAPI", "ShipMa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShipManagementAPI", "ShipManagementAPI\ShipManagementAPI\ShipManagementAPI.csproj", "{6739380C-D589-4091-95D7-75E653AC8942}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Messaging", "Infrastructure.Messaging\Infrastructure.Messaging.csproj", "{9ED8D575-7BA2-42F9-B08B-3875653028F6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,6 +44,10 @@ Global
 		{6739380C-D589-4091-95D7-75E653AC8942}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6739380C-D589-4091-95D7-75E653AC8942}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6739380C-D589-4091-95D7-75E653AC8942}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9ED8D575-7BA2-42F9-B08B-3875653028F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9ED8D575-7BA2-42F9-B08B-3875653028F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9ED8D575-7BA2-42F9-B08B-3875653028F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9ED8D575-7BA2-42F9-B08B-3875653028F6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{5CC81AAB-EC85-461C-953E-5832EE4E0E9D} = {91691089-C2F5-4326-AD23-E6000E0E3E0A}
