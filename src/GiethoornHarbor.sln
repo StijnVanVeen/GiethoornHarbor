@@ -1,0 +1,51 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HarborManagementAPI", "HarborManagementAPI\HarborManagementAPI.csproj", "{DB17EA97-208B-485B-9476-A5CD491AFAB7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SecurityManagementAPI", "SecurityManagementAPI", "{91691089-C2F5-4326-AD23-E6000E0E3E0A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecurityManagementAPI", "SecurityManagementAPI\SecurityManagementAPI\SecurityManagementAPI.csproj", "{5CC81AAB-EC85-461C-953E-5832EE4E0E9D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ServiceManagementAPI", "ServiceManagementAPI", "{3FD8443E-6D00-4F8A-843F-0FAA7EE268F8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceManagementAPI", "ServiceManagementAPI\ServiceManagementAPI\ServiceManagementAPI.csproj", "{283BC652-3846-4826-A4DB-5797F485264C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ShipManagementAPI", "ShipManagementAPI", "{28C3B131-BCD2-4617-80D6-7A63A7F2AA8B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShipManagementAPI", "ShipManagementAPI\ShipManagementAPI\ShipManagementAPI.csproj", "{6739380C-D589-4091-95D7-75E653AC8942}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DB17EA97-208B-485B-9476-A5CD491AFAB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB17EA97-208B-485B-9476-A5CD491AFAB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB17EA97-208B-485B-9476-A5CD491AFAB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB17EA97-208B-485B-9476-A5CD491AFAB7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5CC81AAB-EC85-461C-953E-5832EE4E0E9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5CC81AAB-EC85-461C-953E-5832EE4E0E9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5CC81AAB-EC85-461C-953E-5832EE4E0E9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5CC81AAB-EC85-461C-953E-5832EE4E0E9D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{283BC652-3846-4826-A4DB-5797F485264C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{283BC652-3846-4826-A4DB-5797F485264C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{283BC652-3846-4826-A4DB-5797F485264C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{283BC652-3846-4826-A4DB-5797F485264C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6739380C-D589-4091-95D7-75E653AC8942}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6739380C-D589-4091-95D7-75E653AC8942}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6739380C-D589-4091-95D7-75E653AC8942}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6739380C-D589-4091-95D7-75E653AC8942}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{5CC81AAB-EC85-461C-953E-5832EE4E0E9D} = {91691089-C2F5-4326-AD23-E6000E0E3E0A}
+		{283BC652-3846-4826-A4DB-5797F485264C} = {3FD8443E-6D00-4F8A-843F-0FAA7EE268F8}
+		{6739380C-D589-4091-95D7-75E653AC8942} = {28C3B131-BCD2-4617-80D6-7A63A7F2AA8B}
+	EndGlobalSection
+EndGlobal
