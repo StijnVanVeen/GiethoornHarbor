@@ -1,4 +1,11 @@
+using Microsoft.EntityFrameworkCore;
+using SecurityManagementAPI.DataAccess;
+
 var builder = WebApplication.CreateBuilder(args);
+
+// Add DBContext
+var sqlConnectionString = builder.Configuration.GetConnectionString("HarborSecurity");
+builder.Services.AddDbContext<HarborSecurityDbContext>(options => options.UseSqlServer(sqlConnectionString));
 
 // Add services to the container.
 
@@ -12,8 +19,8 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+	app.UseSwagger();
+	app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();
