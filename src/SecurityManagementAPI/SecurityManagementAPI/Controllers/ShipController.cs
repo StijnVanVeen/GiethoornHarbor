@@ -1,32 +1,82 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using SecurityManagementAPI.Commands;
+using SecurityManagementAPI.Mappers;
+using SecurityManagementAPI.Models;
+using SecurityManagementAPI.Services;
 
 namespace SecurityManagementAPI.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/[controller]")]
 public class ShipController : ControllerBase
 {
-    private static readonly string[] Summaries = new[]
-    {
-        "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-    };
+	private readonly ShipService _shipService;
+	public ShipController(ShipService service)
+	{
+		_shipService = service;
+	}
 
-    private readonly ILogger<ShipController> _logger;
+	[HttpGet]
+	public async Task<IEnumerable<Ship>> GetDockedShipsAsync()
+	{
+		return await _shipService.GetDockedShipsAsync();
+	}
 
-    public ShipController(ILogger<ShipController> logger)
-    {
-        _logger = logger;
-    }
+	[HttpGet("{id}")]
+	public async Task<Ship?> GetShipByIdAsync(int id)
+	{
+		return (await _shipService.GetShipByIdAsync(id)).Value;
+	}
 
-    [HttpGet(Name = "GetWeatherForecast")]
-    public IEnumerable<WeatherForecast> Get()
-    {
-        return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
-                Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-            })
-            .ToArray();
-    }
+	[HttpPost]
+	public async Task<IActionResult> AddShipAsync([FromBody] AddShip command)
+	{
+		try
+		{
+			if (ModelState.IsValid)
+			{
+				// add ship
+				Ship ship = command.MapToShip();
+				await _shipService.AddShipAsync(ship);
+
+				// return result
+				return CreatedAtRoute("AddShip", new { ShipId = ship.Id }, ship);
+			}
+			return BadRequest();
+		}
+		catch (DbUpdateException)
+		{
+			ModelState.AddModelError("", "Unable to save changes. " +
+				"Try again, and if the problem persists " +
+				"see your system administrator.");
+			return StatusCode(StatusCodes.Status500InternalServerError);
+			throw;
+		}
+	}
+
+	[HttpPost("depart/{id}")]
+	public async Task<IActionResult> DepartShipAsync(int id)
+	{
+		try
+		{
+			if (ModelState.IsValid)
+			{
+				// depart ship
+				Ship? ship = (await _shipService.DepartShipAsync(id)).Value;
+
+				// return result
+				return CreatedAtRoute("Depart", new { ShipId = id }, ship);
+			}
+			return BadRequest();
+		}
+		catch (DbUpdateException)
+		{
+			ModelState.AddModelError("", "Unable to save changes. " +
+				"Try again, and if the problem persists " +
+				"see your system administrator.");
+			return StatusCode(StatusCodes.Status500InternalServerError);
+			throw;
+		}
+	}
 }
