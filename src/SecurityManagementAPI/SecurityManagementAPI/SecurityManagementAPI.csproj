@@ -20,9 +20,11 @@
 
     <ItemGroup>
       <Folder Include="Events\" />
-      <Folder Include="Mappers\" />
       <Folder Include="Migrations\" />
-      <Folder Include="Services\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Infrastructure.Messaging\Infrastructure.Messaging.csproj" />
     </ItemGroup>
 
 </Project>
