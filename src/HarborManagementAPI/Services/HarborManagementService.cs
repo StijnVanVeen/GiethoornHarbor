@@ -13,19 +13,20 @@ namespace HarborManagementAPI.Services
         public HarborManagementService(HarborManagementDBContext dBContext) {
             _dbContext = dBContext;
         }
-        public async Task AddShip(Ship ship)
+        public async Task AddShipAsync(Ship ship)
         {
             _dbContext.Ships.Add(ship);
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task DepartShip (Ship ship)
+        public async Task<ActionResult<Ship>> DepartShipAsync (int id)
         {
-            var DepartShip = await _dbContext.Ships.SingleOrDefaultAsync(s => s.Id == ship.Id);
+            var DepartShip = await _dbContext.Ships.SingleOrDefaultAsync(s => s.Id == id);
             DepartShip.Departure = DateTime.Now;
             var str = _dbContext.Ships.Attach(DepartShip);
             str.State = EntityState.Modified;
             await _dbContext.SaveChangesAsync();
+            return DepartShip;
         }
 
         public async Task<IEnumerable<Ship>> GetShipList()
@@ -49,7 +50,12 @@ namespace HarborManagementAPI.Services
             return await _dbContext.Tugboat.Where(tug => tug.Available == true).ToListAsync();
         }
 
-        public async Task DispatchTug (int TugId, int ShipId) {
+        public async Task<ActionResult<Tugboat>> GetTugById(int Id)
+        {
+            return await _dbContext.Tugboat.SingleOrDefaultAsync(tug => tug.Id == Id);
+        }
+
+        public async Task DispatchTugAsync (int TugId, int ShipId) {
             var tug = await _dbContext.Tugboat.SingleOrDefaultAsync(s => s.Id == TugId);
             tug.Available = false;
             tug.ShipId = ShipId;
@@ -57,12 +63,13 @@ namespace HarborManagementAPI.Services
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task ReturnTug (int Id)
+        public async Task<ActionResult<Tugboat>> ReturnTugAsync (int Id)
         {
             var tug = await _dbContext.Tugboat.SingleOrDefaultAsync(s => s.Id == Id);
             tug.Available = true;
             _dbContext.Tugboat.Update(tug);
             await _dbContext.SaveChangesAsync();
+            return tug;
         }
 
         public async Task AddDock (Dock dock) {
