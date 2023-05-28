@@ -13,9 +13,9 @@ services:
     environment:
       - RABBITMQ_CONFIG_FILE=/etc/giethoornharbor/rabbitmq.conf
 
-  sqlserver:
+  sqlservergh:
     image: mcr.microsoft.com/azure-sql-edge
-    container_name: sqlserver
+    container_name: sqlservergh
     volumes:
       - sqlserverdata:/var/opt/mssql
     ports:
@@ -25,13 +25,6 @@ services:
       - MSSQL_PID=Developer
       - SA_PASSWORD=8jkGh47hnDw89Haq8LN2
 
-  mailserver:
-    image: maildev/maildev:1.1.0
-    container_name: mailserver
-    ports:
-      - "25:25"
-      - "4000:80"
-
   logserver:
     image: datalust/seq:latest
     container_name: logserver
@@ -40,47 +33,14 @@ services:
     environment:
       - ACCEPT_EULA=Y
 
-  shipmanagementapi:
-    image: giethoornharbor/shipmanagementapi:1.0
-    build: ShipManagementAPI
+  shipsmanagementapi:
+    image: giethoornharbor/shipsmanagementapi:1.0
+    build: ShipsManagementAPI
     depends_on:
       - rabbitmq
-      - sqlserver
-    ports:
-      - "5000"
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Production
-
-  securitymanagementapi:
-    image: giethoornharbor/securitymanagementapi:1.0
-    build: SecurityManagementAPI
-    depends_on:
-      - rabbitmq
-      - sqlserver
+      - sqlservergh
     ports:
       - "5100"
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Production
-
-  servicemanagementapi:
-    image: giethoornharbor/servicemanagementapi:1.0
-    build: ServiceManagementAPI
-    depends_on:
-      - rabbitmq
-      - sqlserver
-    ports:
-      - "5200"
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Production
-  
-  harbormanagementapi:
-    image: giethoornharbor/harbormanagementapi:1.0
-    build: HarborManagementAPI
-    depends_on:
-      - rabbitmq
-      - sqlserver
-    ports:
-      - "5300"
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
 
@@ -92,49 +52,6 @@ services:
       - rabbitmq
     environment:
       - DOTNET_ENVIRONMENT=Production
-
-  notificationservice:
-    image: giethoornharbor/notificationservice:1.0
-    build: NotificationService
-    container_name: notificationservice
-    depends_on:
-      - rabbitmq
-      - sqlserver
-      - mailserver
-    environment:
-      - DOTNET_ENVIRONMENT=Production
-
-  timeservice:
-    image: giethoornharbor/timeservice:1.0
-    build: TimeService
-    container_name: timeservice
-    depends_on:
-      - rabbitmq
-    environment:
-      - DOTNET_ENVIRONMENT=Production
-
-  servicemanagementeventhandler:
-    image: giethoornharbor/servicemanagementeventhandler:1.0
-    build: ServiceManagementEventHandler
-    container_name: servicemanagementeventhandler
-    depends_on:
-      - rabbitmq
-      - sqlserver
-    environment:
-      - DOTNET_ENVIRONMENT=Production
-
-  webapp:
-    image: giethoornharbor/webapp:1.0
-    build: WebApp
-    container_name: webapp
-    depends_on:
-      - securitymanagementapi
-      - shipmanagementapi
-      - servicemanagementapi
-    ports:
-      - "7005:7005"
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Production
 
 volumes:
   sqlserverdata:
