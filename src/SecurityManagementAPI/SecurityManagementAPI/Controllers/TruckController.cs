@@ -2,9 +2,9 @@
 using Microsoft.EntityFrameworkCore;
 using SecurityManagementAPI.Commands;
 using SecurityManagementAPI.Events;
+using SecurityManagementAPI.IServices;
 using SecurityManagementAPI.Mappers;
 using SecurityManagementAPI.Models;
-using SecurityManagementAPI.Services;
 
 namespace SecurityManagementAPI.Controllers;
 
@@ -12,11 +12,12 @@ namespace SecurityManagementAPI.Controllers;
 [Route("api/[controller]")]
 public class TruckController : ControllerBase
 {
-	private readonly TruckService _truckService;
-	private readonly ShipService _shipService;
-	public TruckController(TruckService service)
+	private readonly ITruckService _truckService;
+	private readonly IShipService _shipService;
+	public TruckController(ITruckService service, IShipService shipService)
 	{
 		_truckService = service;
+		_shipService = shipService;
 	}
 
 	[HttpGet]

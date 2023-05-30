@@ -14,7 +14,7 @@ namespace SecurityManagementAPI.Commands
 			Id = id;
 			ArrivalDate = arrivalDate;
 			DepartureDate = departureDate;
-			Dockid = dockid;
+			DockId = dockid;
 		}
 	}
 }

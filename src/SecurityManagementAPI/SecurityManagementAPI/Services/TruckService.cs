@@ -1,11 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SecurityManagementAPI.DataAccess;
+using SecurityManagementAPI.IServices;
 using SecurityManagementAPI.Models;
 
 namespace SecurityManagementAPI.Services
 {
-	public class TruckService
+	public class TruckService : ITruckService
 	{
 		HarborSecurityDbContext _dbContext;
 		public TruckService(HarborSecurityDbContext dbContext)

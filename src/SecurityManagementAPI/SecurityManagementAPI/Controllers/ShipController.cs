@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SecurityManagementAPI.Commands;
+using SecurityManagementAPI.IServices;
 using SecurityManagementAPI.Mappers;
 using SecurityManagementAPI.Models;
-using SecurityManagementAPI.Services;
 
 namespace SecurityManagementAPI.Controllers;
 
@@ -11,8 +11,8 @@ namespace SecurityManagementAPI.Controllers;
 [Route("api/[controller]")]
 public class ShipController : ControllerBase
 {
-	private readonly ShipService _shipService;
-	public ShipController(ShipService service)
+	private readonly IShipService _shipService;
+	public ShipController(IShipService service)
 	{
 		_shipService = service;
 	}
