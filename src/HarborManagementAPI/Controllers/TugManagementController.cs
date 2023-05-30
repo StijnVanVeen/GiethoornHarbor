@@ -11,9 +11,9 @@ namespace HarborManagementAPI.Controllers
     [ApiController]
     public class TugManagementController : ControllerBase
     {
-        private readonly HarborManagementService _service;
+        private readonly IHarborManagementService _service;
 
-        public TugManagementController(HarborManagementService service)
+        public TugManagementController(IHarborManagementService service)
         {
             _service = service;
         }

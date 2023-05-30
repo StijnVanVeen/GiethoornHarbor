@@ -7,7 +7,7 @@ namespace HarborManagementAPI.Services
 {
 
     
-    public class HarborManagementService
+    public class HarborManagementService : IHarborManagementService
     {
         HarborManagementDBContext _dbContext;
         public HarborManagementService(HarborManagementDBContext dBContext) {

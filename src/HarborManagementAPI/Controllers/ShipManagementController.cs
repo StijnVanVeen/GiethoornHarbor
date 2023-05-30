@@ -10,8 +10,8 @@ namespace HarborManagementAPI.Controllers
     [ApiController]
     public class ShipManagementController : ControllerBase
     {
-        private readonly HarborManagementService _service;
-        public ShipManagementController(HarborManagementService service) { 
+        private readonly IHarborManagementService _service;
+        public ShipManagementController(IHarborManagementService service) { 
             _service = service;
         }
 
@@ -42,6 +42,7 @@ namespace HarborManagementAPI.Controllers
                 {
                     // add ship
                     Ship ship = command.MapToShip();
+                    ship.Arrival = DateTime.Now;
                     await _service.AddShipAsync(ship);
 
                     // return result
