@@ -1,34 +1,22 @@
 ﻿
-using System.ComponentModel.DataAnnotations.Schema;
-using Pitstop.Infrastructure.Messaging;
-using ShipsManagementAPI.Commands;
+using System.ComponentModel.DataAnnotations;
+
 
 namespace ShipsManagementAPI.Events;
 
-public class ShipRegistered : Event
+public class ShipRegistered : ShipBaseEvent
 {
-    public readonly string Id;
-    public readonly string Name;
-    public readonly int LengthInMeters;
-    public readonly string Brand;
+    [Required(ErrorMessage = "Name is required.")]
+    public string Name { get; set; }
+    [Required(ErrorMessage = "Length is required.")]
+    public int LengthInMeters { get; set; }
+    [Required(ErrorMessage = "Brand is required.")]
+    public string Brand { get; set; }
     
-    public ShipRegistered(Guid messageId, string id, string name, int lengthInMeters, string brand) : base(messageId)
+    public ShipRegistered(string name, int lengthInMeters, string brand)
     {
-        Id = id;
         Name = name;
         LengthInMeters = lengthInMeters;
         Brand = brand;
     }
-    
-    public static ShipRegistered FromCommand(RegisterShip command)
-    {
-        return new ShipRegistered(
-            Guid.NewGuid(),
-            command.Id, 
-            command.Name, 
-            command.LengthInMeters, 
-            command.Brand
-            );
-    }
-    
 }

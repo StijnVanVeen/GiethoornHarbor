@@ -1,37 +1,37 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Pitstop.Infrastructure.Messaging;
-using ShipsManagementAPI.Commands;
-using ShipsManagementAPI.DataAccess;
 using ShipsManagementAPI.Events;
 using ShipsManagementAPI.Mappers;
+using ShipsManagementAPI.Messaging;
 using ShipsManagementAPI.Model;
+using ShipsManagementAPI.RepoServices;
 
 namespace ShipsManagementAPI.Controllers;
 
+[ApiController]
 [Route("/api/[controller]")]
-public class ShipsController : Controller
+public class ShipsController : ControllerBase
 {
-    ShipsManagementDBContext _context;
-    IMessagePublisher _messagePublisher;
+    private readonly IShipRepoService _shipRepoService;
+    private readonly IMessagePublisher _messagePublisher;
     
-    public ShipsController(ShipsManagementDBContext context, IMessagePublisher messagePublisher)
+    public ShipsController(IShipRepoService shipRepoService, IMessagePublisher messagePublisher)
     {
-        _context = context;
+        _shipRepoService = shipRepoService;
         _messagePublisher = messagePublisher;
     }
     
     [HttpGet]
     public async Task<IActionResult> GetAllAsync()
     {
-        return Ok(await _context.Ships.ToListAsync());
+        return Ok(await _shipRepoService.FindAll());
     }
     
     [HttpGet]
     [Route("{id}", Name = "GetShipById")]
     public async Task<IActionResult> GetById(int id)
     {
-        var ship = await _context.Ships.FirstOrDefaultAsync(s => s.Id == id.ToString());
+        var ship = await _shipRepoService.FindById(id);
         if (ship == null)
         {
             return NotFound();
@@ -40,30 +40,27 @@ public class ShipsController : Controller
     }
     
     [HttpPost]
-    public async Task<IActionResult> RegisterAsync([FromBody] RegisterShip command)
+    public async Task<ActionResult<ShipRegistered>> RegisterAsync(ShipRegistered requestObject)
     {
         try
         {
             if (ModelState.IsValid)
             {
-                Ship ship = command.MapToShip();
-                _context.Ships.Add(ship);
-                await _context.SaveChangesAsync();
+                Ship ship = requestObject.MapToShip();
+                var shipId = await _shipRepoService.Insert(ship);
 
-                // send event 
-                var e = ShipRegistered.FromCommand(command);
-                await _messagePublisher.PublishMessageAsync(e.MessageType, e, "");
-                // return result
-                return CreatedAtRoute("GetShipById", new { id = ship.Id }, ship);
+                await _messagePublisher.PublishMessageAsync(requestObject.EventType, ship, 2);
+                return Ok(ship);
             }
 
             return BadRequest();
         }
-        catch (DbUpdateException)
+        catch (DbUpdateException e)
         {
             ModelState.AddModelError("", "Unable to save changes. " +
                                          "Try again, and if the problem persists " +
                                          "see your system administrator.");
+            Console.WriteLine(e.Message);
             return StatusCode(StatusCodes.Status500InternalServerError);
         }
     }

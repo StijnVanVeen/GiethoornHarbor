@@ -1,4 +1,4 @@
-docker volume create --name=sqlserverdata
+docker volume create --name=sqlserverghdata
 docker volume create --name=rabbitmqdata
 
 # Build the .NET SDK base image that contains the Directory.Packages.props file so it is used when restoring the NuGet packages
