@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using ShipsManagementAPI.Commands;
 using ShipsManagementAPI.Events;
 using ShipsManagementAPI.Mappers;
 using ShipsManagementAPI.Messaging;
 using ShipsManagementAPI.Model;
-using ShipsManagementAPI.RepoServices;
+using ShipsManagementAPI.Queries;
 
 namespace ShipsManagementAPI.Controllers;
 
@@ -12,26 +13,28 @@ namespace ShipsManagementAPI.Controllers;
 [Route("/api/[controller]")]
 public class ShipsController : ControllerBase
 {
-    private readonly IShipRepoService _shipRepoService;
+    private readonly IShipCommandRepository _shipCommandRepository;
+    private readonly IShipQueryRepository _shipQueryRepository;
     private readonly IMessagePublisher _messagePublisher;
     
-    public ShipsController(IShipRepoService shipRepoService, IMessagePublisher messagePublisher)
+    public ShipsController(IShipQueryRepository shipQueryRepository, IShipCommandRepository shipCommandRepository,  IMessagePublisher messagePublisher)
     {
-        _shipRepoService = shipRepoService;
+        _shipCommandRepository = shipCommandRepository;
+        _shipQueryRepository = shipQueryRepository;
         _messagePublisher = messagePublisher;
     }
     
     [HttpGet]
     public async Task<IActionResult> GetAllAsync()
     {
-        return Ok(await _shipRepoService.FindAll());
+        return Ok(await _shipQueryRepository.FindAll());
     }
     
     [HttpGet]
     [Route("{id}", Name = "GetShipById")]
     public async Task<IActionResult> GetById(int id)
     {
-        var ship = await _shipRepoService.FindById(id);
+        var ship = await _shipQueryRepository.FindById(id);
         if (ship == null)
         {
             return NotFound();
@@ -47,7 +50,7 @@ public class ShipsController : ControllerBase
             if (ModelState.IsValid)
             {
                 Ship ship = requestObject.MapToShip();
-                var shipId = await _shipRepoService.Insert(ship);
+                var shipId = await _shipCommandRepository.Insert(ship);
 
                 await _messagePublisher.PublishMessageAsync(requestObject.EventType, ship, 2);
                 return Ok(ship);

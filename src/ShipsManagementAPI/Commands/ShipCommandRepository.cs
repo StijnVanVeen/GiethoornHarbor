@@ -2,26 +2,17 @@
 using ShipsManagementAPI.DataAccess;
 using ShipsManagementAPI.Model;
 
-namespace ShipsManagementAPI.RepoServices;
+namespace ShipsManagementAPI.Commands;
 
-public class ShipRepoService : IShipRepoService
+public class ShipCommandRepository : IShipCommandRepository
 {
     private readonly ShipsManagementDBContext _dbContext;
-
-    public ShipRepoService(ShipsManagementDBContext dbContext)
+    
+    public ShipCommandRepository(ShipsManagementDBContext dbContext)
     {
         _dbContext = dbContext;
     }
-    public async Task<IEnumerable<Ship>> FindAll()
-    {
-        return await _dbContext.Ships.ToListAsync();
-    }
-
-    public async Task<Ship> FindById(int id)
-    {
-        return await _dbContext.Ships.FirstOrDefaultAsync(s => s.Id == id);
-    }
-
+    
     public async Task<int> Insert(Ship ship)
     {
         _dbContext.Add(ship);
