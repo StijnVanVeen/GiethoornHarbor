@@ -1,12 +1,18 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using Serilog;
 using ShipsManagementAPI.Commands;
 using ShipsManagementAPI.DataAccess;
 using ShipsManagementAPI.Messaging.Configuration;
 using ShipsManagementAPI.Queries;
 
-
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Host.UseSerilog((context, logContext) => 
+    logContext
+        .ReadFrom.Configuration(builder.Configuration)
+        .Enrich.WithMachineName()
+);
 
 var sqlConnectionString = builder.Configuration.GetConnectionString("ShipsManagementCN");
 builder.Services.AddDbContext<ShipsManagementDBContext>(options => options.UseSqlServer(sqlConnectionString));

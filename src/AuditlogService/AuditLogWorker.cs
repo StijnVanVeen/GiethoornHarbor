@@ -1,4 +1,6 @@
-﻿namespace Pitstop.AuditlogService;
+﻿using Pitstop.Infrastructure.Messaging;
+
+namespace AuditlogService;
 
 public class AuditLogWorker : IHostedService, IMessageHandlerCallback
 {

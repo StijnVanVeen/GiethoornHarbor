@@ -3,8 +3,8 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net7.0</TargetFramework>    
-    <AssemblyName>Pitstop.AuditlogService</AssemblyName>
-    <RootNamespace>Pitstop.AuditlogService</RootNamespace>   
+    <AssemblyName>AuditlogService</AssemblyName>
+    <RootNamespace>AuditlogService</RootNamespace>   
     <ImplicitUsings>enable</ImplicitUsings>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
   </PropertyGroup>
@@ -35,9 +35,14 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" />
     <PackageReference Include="Pitstop.Infrastructure.Messaging" />
     <PackageReference Include="Serilog" />
+    <PackageReference Include="Serilog.Enrichers.Environment" />
     <PackageReference Include="Serilog.Extensions.Hosting" />
     <PackageReference Include="Serilog.Settings.Configuration" />
     <PackageReference Include="Serilog.Sinks.Console" />
     <PackageReference Include="Serilog.Sinks.Seq" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Infrastructure.Messaging\Infrastructure.Messaging.csproj" />
   </ItemGroup>
 </Project>

@@ -1,4 +1,4 @@
-namespace Pitstop.AuditlogService;
+namespace AuditlogService;
 
 public class AuditlogWorkerConfig
 {
