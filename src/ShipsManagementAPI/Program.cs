@@ -1,9 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
-using Serilog;
+using ShipsManagementAPI.Commands;
 using ShipsManagementAPI.DataAccess;
 using ShipsManagementAPI.Messaging.Configuration;
-using ShipsManagementAPI.RepoServices;
+using ShipsManagementAPI.Queries;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,7 +13,8 @@ builder.Services.AddDbContext<ShipsManagementDBContext>(options => options.UseSq
 
 // add messagepublisher
 builder.Services.UseRabbitMQMessagePublisher(builder.Configuration);
-builder.Services.AddScoped<IShipRepoService, ShipRepoService>();
+builder.Services.AddScoped<IShipQueryRepository, ShipQueryRepository>();
+builder.Services.AddScoped<IShipCommandRepository, ShipCommandRepository>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
