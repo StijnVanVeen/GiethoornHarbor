@@ -1,14 +1,11 @@
-﻿using HarborManagementAPI.Commands;
-using HarborManagementAPI.Events;
+﻿using HarborManagementAPI.Events;
 using HarborManagementAPI.Models;
 
 namespace HarborManagementAPI.Mappers
 {
     public static class HarborManagementMapper
     {
-        public static ShipArrived MapToShipArrived(this ArriveShip command) => new ShipArrived(
-            System.Guid.NewGuid(),
-            command.Id,
+        public static ShipArrived MapToShipArrived(this ShipArrived command) => new ShipArrived(
             command.Arrival,
             command.Departure,
             command.Size,
@@ -16,9 +13,7 @@ namespace HarborManagementAPI.Mappers
             command.DockId
         );
 
-        public static ShipDeparted MapToShipDeparted(this DepartShip command) => new ShipDeparted(
-            System.Guid.NewGuid(),
-            command.Id,
+        public static ShipDeparted MapToShipDeparted(ShipDeparted command) => new ShipDeparted(
             command.Arrival,
             command.Departure,
             command.Size,
@@ -26,16 +21,13 @@ namespace HarborManagementAPI.Mappers
             command.DockId
             );
 
-        public static TugDispatched MapToTugDispatched(this DispatchTug command) => new TugDispatched(
-            System.Guid.NewGuid(),
-            command.Id,
+        public static TugDispatched MapToTugDispatched(this TugDispatched command) => new TugDispatched(
             command.Available,
             command.ShipId
         );
 
-        public static Ship MapToShip(this ArriveShip command) => new Ship
+        public static Ship MapToShip(this ShipArrived command) => new Ship
         {
-            Id = command.Id,
             Arrival = command.Arrival,
             Departure = command.Departure,
             Size = command.Size,
@@ -43,7 +35,7 @@ namespace HarborManagementAPI.Mappers
             DockId = command.DockId
         };
 
-        public static Tugboat MapToTug(this DispatchTug command) => new Tugboat
+        public static Tugboat MapToTug(this Tugboat command) => new Tugboat
         {
             Id = command.Id,
             Available = command.Available,

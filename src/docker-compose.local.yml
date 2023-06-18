@@ -9,5 +9,9 @@ services:
   shipsmanagementapi:
     ports:
       - "5100:5100"
+        
+  harbormanagementapi:
+    ports:
+      - "5200:5200"
 
  

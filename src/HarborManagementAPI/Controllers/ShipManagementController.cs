@@ -1,4 +1,5 @@
-﻿using HarborManagementAPI.Mappers;
+﻿using HarborManagementAPI.Events;
+using HarborManagementAPI.Mappers;
 using HarborManagementAPI.Models;
 using HarborManagementAPI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -34,14 +35,14 @@ namespace HarborManagementAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddShipAsync([FromBody] ArriveShip command)
+        public async Task<ActionResult<ShipArrived>> AddShipAsync(ShipArrived requestObject)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
                     // add ship
-                    Ship ship = command.MapToShip();
+                    Ship ship = requestObject.MapToShip();
                     ship.Arrival = DateTime.Now;
                     await _service.AddShipAsync(ship);
 
@@ -50,13 +51,13 @@ namespace HarborManagementAPI.Controllers
                 }
                 return BadRequest();
             }
-            catch (DbUpdateException)
+            catch (DbUpdateException e)
             {
                 ModelState.AddModelError("", "Unable to save changes. " +
                     "Try again, and if the problem persists " +
                     "see your system administrator.");
+                Console.WriteLine(e.Message);
                 return StatusCode(StatusCodes.Status500InternalServerError);
-                throw;
             }
         }
 

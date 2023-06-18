@@ -1,5 +1,4 @@
-﻿using HarborManagementAPI.Commands;
-using HarborManagementAPI.Mappers;
+﻿using HarborManagementAPI.Mappers;
 using HarborManagementAPI.Models;
 using HarborManagementAPI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -37,15 +36,15 @@ namespace HarborManagementAPI.Controllers
         }
 
         [HttpPost("dispatch/{id}")]
-        public async Task<IActionResult> DispatchTugAsync([FromBody] DispatchTug command)
+        public async Task<ActionResult<Tugboat>> DispatchTugAsync(Tugboat requestObject)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
                     // add tug
-                    Tugboat tug = command.MapToTug();
-                    await _service.DispatchTugAsync(tug.Id, command.ShipId);
+                    Tugboat tug = requestObject.MapToTug();
+                    await _service.DispatchTugAsync(tug.Id, requestObject.ShipId);
 
                     // return result
                     return CreatedAtRoute("Dispatch", new { TugId = tug.Id }, tug);
@@ -77,13 +76,13 @@ namespace HarborManagementAPI.Controllers
                 }
                 return BadRequest();
             }
-            catch (DbUpdateException)
+            catch (DbUpdateException e)
             {
                 ModelState.AddModelError("", "Unable to save changes. " +
                     "Try again, and if the problem persists " +
                     "see your system administrator.");
+                Console.WriteLine(e.Message);
                 return StatusCode(StatusCodes.Status500InternalServerError);
-                throw;
             }
         }
     }
