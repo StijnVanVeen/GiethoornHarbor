@@ -3,19 +3,15 @@ namespace HarborManagementAPI.Events
 {
     public class ShipDeparted : BaseEvent
     {
-        public readonly DateTime Arrival;
-        public readonly DateTime? Departure;
-        public readonly string Size;
-        public readonly string Weight;
-        public readonly int? DockId;
+        public DateTime Departure { get; set; }
+        public int DockId { get; set; }
+        public  int ShipId { get; set; }
 
-        public ShipDeparted(DateTime arrival, DateTime? departure, string size, string weight, int? dockId)
+        public ShipDeparted(DateTime departure, int dockId, int shipId)
         {
-            Arrival = arrival;
             Departure = departure;
-            Size = size;
-            Weight = weight;
             DockId = dockId;
+            ShipId = shipId;
         }
     }
 }

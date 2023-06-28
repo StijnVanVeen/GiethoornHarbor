@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using ShipsManagementAPI.Commands;
 using ShipsManagementAPI.Events;
 using ShipsManagementAPI.Mappers;
 using ShipsManagementAPI.Messaging;
 using ShipsManagementAPI.Model;
 using ShipsManagementAPI.Queries;
+using ShipsManagementAPI.Writes;
 
 namespace ShipsManagementAPI.Controllers;
 
@@ -13,13 +13,13 @@ namespace ShipsManagementAPI.Controllers;
 [Route("/api/[controller]")]
 public class ShipsController : ControllerBase
 {
-    private readonly IShipCommandRepository _shipCommandRepository;
+    private readonly IShipWriteRepository _shipWriteRepository;
     private readonly IShipQueryRepository _shipQueryRepository;
     private readonly IMessagePublisher _messagePublisher;
     
-    public ShipsController(IShipQueryRepository shipQueryRepository, IShipCommandRepository shipCommandRepository,  IMessagePublisher messagePublisher)
+    public ShipsController(IShipQueryRepository shipQueryRepository, IShipWriteRepository shipWriteRepository,  IMessagePublisher messagePublisher)
     {
-        _shipCommandRepository = shipCommandRepository;
+        _shipWriteRepository = shipWriteRepository;
         _shipQueryRepository = shipQueryRepository;
         _messagePublisher = messagePublisher;
     }
@@ -50,9 +50,9 @@ public class ShipsController : ControllerBase
             if (ModelState.IsValid)
             {
                 Ship ship = requestObject.MapToShip();
-                var shipId = await _shipCommandRepository.Insert(ship);
+                var shipId = await _shipWriteRepository.Insert(ship);
 
-                await _messagePublisher.PublishMessageAsync(requestObject.EventType, ship, 2);
+                await _messagePublisher.PublishMessageAsync(requestObject.EventType, ship, 0);
                 return Ok(ship);
             }
 

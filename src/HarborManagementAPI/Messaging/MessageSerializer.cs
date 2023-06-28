@@ -3,7 +3,7 @@ using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 
-namespace ShipsManagementAPI.Messaging;
+namespace HarborManagementAPI.Messaging;
 
 public static class MessageSerializer
 {

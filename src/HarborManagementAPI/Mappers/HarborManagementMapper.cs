@@ -5,40 +5,38 @@ namespace HarborManagementAPI.Mappers
 {
     public static class HarborManagementMapper
     {
-        public static ShipArrived MapToShipArrived(this ShipArrived command) => new ShipArrived(
-            command.Arrival,
-            command.Departure,
-            command.Size,
-            command.Weight,
-            command.DockId
-        );
-
-        public static ShipDeparted MapToShipDeparted(ShipDeparted command) => new ShipDeparted(
-            command.Arrival,
-            command.Departure,
-            command.Size,
-            command.Weight,
-            command.DockId
-            );
 
         public static TugDispatched MapToTugDispatched(this TugDispatched command) => new TugDispatched(
             command.Available,
             command.ShipId
         );
 
-        public static Ship MapToShip(this ShipArrived command) => new Ship
+        public static Arrival MapToArrival(this ShipArrived command) => new Arrival 
         {
-            Arrival = command.Arrival,
-            Departure = command.Departure,
-            Size = command.Size,
-            Weight = command.Weight,
-            DockId = command.DockId
+            ArrivalDate = command.Arrival,
+            DockId = command.DockId,
+            ShipId = command.ShipId
         };
 
-        public static Tugboat MapToTug(this Tugboat command) => new Tugboat
+        public static Departure MapToDeparture(this ShipDeparted command) => new Departure
         {
-            Id = command.Id,
+            DepartureDate = command.Departure,
+            DockId = command.DockId,
+            ShipId = command.ShipId
+        };
+
+        public static Tugboat MapToTug(this TugRegistered command) => new Tugboat
+        {
+            Name = command.Name,
             Available = command.Available,
+            ArrivalId = command.ArrivalId,
+            DepartureId = command.DepartureId
+        };
+        
+        public static Dock MapToDock(this DockRegistered command) => new Dock
+        {
+            Available = command.Available,
+            Size = command.Size,
             ShipId = command.ShipId
         };
     }

@@ -4,20 +4,15 @@ namespace HarborManagementAPI.Events
 {
     public class ShipArrived : BaseEvent
     {
-        [Required(ErrorMessage = "Arrival is required.")]
-        public readonly DateTime Arrival;
-        public readonly DateTime? Departure;
-        public readonly string Size;
-        public readonly string Weight;
-        public readonly int? DockId;
+        public DateTime Arrival { get; set; }
+        public int DockId { get; set; }
+        public int ShipId { get; set; }
 
-        public ShipArrived(DateTime arrival, DateTime? departure, string size, string weight, int? dockId)
+        public ShipArrived(int dockId, int shipId)
         {
-            Arrival = arrival;
-            Departure = departure;
-            Size = size;
-            Weight = weight;
+            Arrival = DateTime.Now;
             DockId = dockId;
+            ShipId = shipId;
         }
     }
 }

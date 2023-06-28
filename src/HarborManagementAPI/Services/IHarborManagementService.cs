@@ -12,7 +12,7 @@ namespace HarborManagementAPI.Services
         public Task AddTug(Tugboat tugboat);
         public Task<IEnumerable<Tugboat>> GetFreeTugs();
         public Task<ActionResult<Tugboat>> GetTugById(int Id);
-        public Task DispatchTugAsync(int TugId, int ShipId);
+        public Task DispatchTugAsync(int TugId, int? ShipId);
         public Task<ActionResult<Tugboat>> ReturnTugAsync(int Id);
         public Task AddDock(Dock dock);
     }

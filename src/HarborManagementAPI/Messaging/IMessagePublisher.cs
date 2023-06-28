@@ -1,4 +1,4 @@
-﻿namespace ShipsManagementAPI.Messaging;
+﻿namespace HarborManagementAPI.Messaging;
 
 public interface IMessagePublisher
 {

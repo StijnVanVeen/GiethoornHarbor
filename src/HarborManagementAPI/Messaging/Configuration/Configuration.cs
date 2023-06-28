@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace ShipsManagementAPI.Messaging.Configuration;
+namespace HarborManagementAPI.Messaging.Configuration;
 
 public static class Configuration
 {

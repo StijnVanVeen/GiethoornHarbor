@@ -12,4 +12,5 @@ public static class Mappers
         LengthInMeters = command.LengthInMeters,
         Brand = command.Brand
     };
+    
 }

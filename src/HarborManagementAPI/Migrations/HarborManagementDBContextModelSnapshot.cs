@@ -22,6 +22,56 @@ namespace HarborManagementAPI.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("HarborManagementAPI.Models.Arrival", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("ArrivalDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("DockId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDocked")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("ShipId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Arrival", (string)null);
+                });
+
+            modelBuilder.Entity("HarborManagementAPI.Models.Departure", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("DepartureDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("DockId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("LeftHarbor")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("ShipId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Departure", (string)null);
+                });
+
             modelBuilder.Entity("HarborManagementAPI.Models.Dock", b =>
                 {
                     b.Property<int>("Id")
@@ -32,6 +82,9 @@ namespace HarborManagementAPI.Migrations
 
                     b.Property<bool>("Available")
                         .HasColumnType("bit");
+
+                    b.Property<int?>("ShipId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Size")
                         .IsRequired()
@@ -50,26 +103,18 @@ namespace HarborManagementAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("Arrival")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("Departure")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("DockId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Size")
+                    b.Property<string>("Brand")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Weight")
+                    b.Property<int>("LengthInMeters")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("DockId");
 
                     b.ToTable("Ship", (string)null);
                 });
@@ -82,31 +127,22 @@ namespace HarborManagementAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("ArrivalId")
+                        .HasColumnType("int");
+
                     b.Property<bool>("Available")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("ShipId")
+                    b.Property<int?>("DepartureId")
                         .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ShipId");
-
                     b.ToTable("Tugboat", (string)null);
-                });
-
-            modelBuilder.Entity("HarborManagementAPI.Models.Ship", b =>
-                {
-                    b.HasOne("HarborManagementAPI.Models.Dock", null)
-                        .WithMany()
-                        .HasForeignKey("DockId");
-                });
-
-            modelBuilder.Entity("HarborManagementAPI.Models.Tugboat", b =>
-                {
-                    b.HasOne("HarborManagementAPI.Models.Ship", null)
-                        .WithMany()
-                        .HasForeignKey("ShipId");
                 });
 #pragma warning restore 612, 618
         }

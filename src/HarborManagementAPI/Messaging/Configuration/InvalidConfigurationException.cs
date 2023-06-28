@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace ShipsManagementAPI.Messaging.Configuration;
+namespace HarborManagementAPI.Messaging.Configuration;
 
 public class InvalidConfigurationException : Exception
 {

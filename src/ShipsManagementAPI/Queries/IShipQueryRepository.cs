@@ -1,4 +1,5 @@
-﻿using ShipsManagementAPI.Model;
+﻿using ShipsManagementAPI.DTO;
+using ShipsManagementAPI.Model;
 
 namespace ShipsManagementAPI.Queries;
 

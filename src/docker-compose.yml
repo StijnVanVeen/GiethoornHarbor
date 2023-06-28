@@ -39,6 +39,7 @@ services:
     depends_on:
       - rabbitmq
       - sqlservergh
+      - mongo
     ports:
       - "5100"
     environment:
@@ -50,6 +51,7 @@ services:
     depends_on:
       - rabbitmq
       - sqlservergh
+      - mongo
     ports:
       - "5200"
     environment:
@@ -63,9 +65,43 @@ services:
       - rabbitmq
     environment:
       - DOTNET_ENVIRONMENT=Production
+        
+  harbormanagementeventhandler:
+    image: giethoornharbor/harbormanagementeventhandler:1.0
+    build: HarborManagementEventHandler
+    container_name: harbormanagementeventhandler
+    depends_on:
+      - rabbitmq
+      - sqlservergh
+      - mongo
+      - harbormanagementapi
+    environment:
+      - DOTNET_ENVIRONMENT=Production
+        
+  shipmanagementeventhandler:
+    image: giethoornharbor/shipmanagementeventhandler:1.0
+    build: ShipManagementEventHandler
+    container_name: shipmanagementeventhandler
+    depends_on:
+      - rabbitmq
+      - sqlservergh
+      - mongo
+      - shipsmanagementapi
+    environment:
+      - DOTNET_ENVIRONMENT=Production
+  
+  mongo:
+    container_name: mongo
+    image: mongo
+    ports:
+      - 27017:27017
+    volumes:
+      - mongo_data:/data/db
 
 volumes:
   sqlserverdata:
     external: true
   rabbitmqdata:
+    external: true
+  mongo_data:
     external: true

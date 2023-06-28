@@ -1,10 +1,14 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using Pitstop.Infrastructure.Messaging;
 using Serilog;
-using ShipsManagementAPI.Commands;
+using ShipsManagementAPI;
 using ShipsManagementAPI.DataAccess;
 using ShipsManagementAPI.Messaging.Configuration;
+//using ShipsManagementAPI.Messaging.Configuration;
 using ShipsManagementAPI.Queries;
+
+using ShipsManagementAPI.Writes;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,8 +23,10 @@ builder.Services.AddDbContext<ShipsManagementDBContext>(options => options.UseSq
 
 // add messagepublisher
 builder.Services.UseRabbitMQMessagePublisher(builder.Configuration);
-builder.Services.AddScoped<IShipQueryRepository, ShipQueryRepository>();
-builder.Services.AddScoped<IShipCommandRepository, ShipCommandRepository>();
+//builder.Services.UseRabbitMQMessageHandler(builder.Configuration);
+builder.Services.AddScoped<IShipQueryRepository, MongoShipQueryRepository>();
+builder.Services.AddScoped<IShipWriteRepository, ShipWriteRepository>();
+builder.Services.AddScoped<IShipContext, ShipContext>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

@@ -2,7 +2,7 @@
 using Polly;
 using RabbitMQ.Client;
 
-namespace ShipsManagementAPI.Messaging;
+namespace HarborManagementAPI.Messaging;
 
 public sealed class RabbitMQMessagePublisher : IMessagePublisher, IDisposable
 {
@@ -63,7 +63,7 @@ public sealed class RabbitMQMessagePublisher : IMessagePublisher, IDisposable
                 var body = Encoding.UTF8.GetBytes(data);
                 IBasicProperties properties = _model.CreateBasicProperties();
                 properties.Headers = new Dictionary<string, object> { { "MessageType", messageType } };
-                if (sendTo == 0 || sendTo == 2) _model.BasicPublish(exchange: "", routingKey: "ships", properties, body: body);
+                if (sendTo == 0 || sendTo == 2) _model.BasicPublish(exchange: "", routingKey: "harbor", properties, body: body);
                 //if (sendTo == 1 || sendTo == 2) _model.BasicPublish(exchange: "", routingKey: "invoice", properties, body: body);
                 //_model.BasicPublish(exchange: "", routingKey: "customer", body: body);
             });

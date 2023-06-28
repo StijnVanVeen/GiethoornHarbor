@@ -1,9 +1,10 @@
 using HarborManagementAPI.DataAccess;
+using HarborManagementAPI.Repositories;
 using HarborManagementAPI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Serilog;
-using ShipsManagementAPI.Messaging.Configuration;
+using HarborManagementAPI.Messaging.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,7 +19,14 @@ var sqlConnectionString = builder.Configuration.GetConnectionString("HarborManag
 builder.Services.AddDbContext<HarborManagementDBContext>(options => options.UseSqlServer(sqlConnectionString));
 builder.Services.UseRabbitMQMessagePublisher(builder.Configuration);
 // Add services to the container.
-builder.Services.AddScoped<IHarborManagementService, HarborManagementService>();
+//builder.Services.AddScoped<IHarborManagementService, HarborManagementService>();
+builder.Services.AddScoped<IHarborCommandRepository, SqlServerHarborCommandRepository>();
+builder.Services.AddScoped<IHarborQueryRepository, MongoHarborQueryRepository>();
+builder.Services.AddScoped<IShipRepository, MongoRefDataRepository>();
+builder.Services.AddScoped<IShipContext, ShipContext>();
+builder.Services.AddScoped<IHarborContext, HarborContext>();
+var harborManagementConnectionString = builder.Configuration.GetConnectionString("HarborManagementCN");
+//builder.Services.AddTransient<IShipRepository>((sp) => new SqlServerRefDataRepository(harborManagementConnectionString));
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

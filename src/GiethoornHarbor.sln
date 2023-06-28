@@ -7,13 +7,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuditlogService", "Auditlog
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HarborManagementAPI", "HarborManagementAPI\HarborManagementAPI.csproj", "{47304D54-A214-4F67-BAC8-143A262C026F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Messaging", "Infrastructure.Messaging\Infrastructure.Messaging.csproj", "{5AEB8B2C-392D-4F8B-A340-A0A6AAE4F99E}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecurityManagementAPI", "SecurityManagementAPI\SecurityManagementAPI.csproj", "{4AEF37ED-0FCD-4FD9-A8D8-D7802019A961}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceManagementAPI", "ServiceManagementAPI\ServiceManagementAPI.csproj", "{5C4C5768-1039-477E-8D70-A1CC1A5E7E06}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShipsManagementAPI", "ShipsManagementAPI\ShipsManagementAPI.csproj", "{4E518965-686E-4154-8274-90156978BD20}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HarborManagementEventHandler", "HarborManagementEventHandler\HarborManagementEventHandler.csproj", "{9C004310-9E97-4626-995E-A7651F06CA01}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShipManagementEventHandler", "ShipManagementEventHandler\ShipManagementEventHandler.csproj", "{84DD98AE-D7BE-4DA2-B248-3555859C5283}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -32,21 +30,17 @@ Global
 		{47304D54-A214-4F67-BAC8-143A262C026F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{47304D54-A214-4F67-BAC8-143A262C026F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{47304D54-A214-4F67-BAC8-143A262C026F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5AEB8B2C-392D-4F8B-A340-A0A6AAE4F99E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5AEB8B2C-392D-4F8B-A340-A0A6AAE4F99E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5AEB8B2C-392D-4F8B-A340-A0A6AAE4F99E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5AEB8B2C-392D-4F8B-A340-A0A6AAE4F99E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4AEF37ED-0FCD-4FD9-A8D8-D7802019A961}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4AEF37ED-0FCD-4FD9-A8D8-D7802019A961}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4AEF37ED-0FCD-4FD9-A8D8-D7802019A961}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4AEF37ED-0FCD-4FD9-A8D8-D7802019A961}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5C4C5768-1039-477E-8D70-A1CC1A5E7E06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5C4C5768-1039-477E-8D70-A1CC1A5E7E06}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5C4C5768-1039-477E-8D70-A1CC1A5E7E06}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5C4C5768-1039-477E-8D70-A1CC1A5E7E06}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4E518965-686E-4154-8274-90156978BD20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4E518965-686E-4154-8274-90156978BD20}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4E518965-686E-4154-8274-90156978BD20}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4E518965-686E-4154-8274-90156978BD20}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C004310-9E97-4626-995E-A7651F06CA01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C004310-9E97-4626-995E-A7651F06CA01}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C004310-9E97-4626-995E-A7651F06CA01}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C004310-9E97-4626-995E-A7651F06CA01}.Release|Any CPU.Build.0 = Release|Any CPU
+		{84DD98AE-D7BE-4DA2-B248-3555859C5283}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84DD98AE-D7BE-4DA2-B248-3555859C5283}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84DD98AE-D7BE-4DA2-B248-3555859C5283}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84DD98AE-D7BE-4DA2-B248-3555859C5283}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
