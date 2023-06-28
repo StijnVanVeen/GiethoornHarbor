@@ -305,7 +305,7 @@ public class EventHandlerWorker : IHostedService, IMessageHandlerCallback
                 ShipId = e.ShipId,
                 DockId = e.DockId,
                 DepartureDate = e.DepartureDate,
-                IsDocked = false
+                LeftHarbor = false
             });
         }
         catch (DbUpdateException)
