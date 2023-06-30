@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HarborManagementAPI.Migrations
 {
-    [DbContext(typeof(HarborManagementDBContext))]
+    [DbContext(typeof(HarborManagementSQLDBContext))]
     [Migration("20230524120038_InitalMigration")]
     partial class InitalMigration
     {

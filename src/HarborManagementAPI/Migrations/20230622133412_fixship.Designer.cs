@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HarborManagementAPI.Migrations
 {
-    [DbContext(typeof(HarborManagementDBContext))]
+    [DbContext(typeof(HarborManagementSQLDBContext))]
     [Migration("20230622133412_fixship")]
     partial class fixship
     {

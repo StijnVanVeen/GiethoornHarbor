@@ -14,8 +14,8 @@ IHost host = Host
     {
         services.UseRabbitMQMessageHandler(hostContext.Configuration);
         
-        services.AddScoped<IShipWriteRepository, MongoShipWriteRepository>();
-        services.AddScoped<IShipContext, ShipContext>();
+        services.AddScoped<IShipCommandRepository, MongoShipCommandRepository>();
+        services.AddScoped<IShipContext, ShipMongoContext>();
 
         services.AddHostedService<EventHandlerWorker>();
     })

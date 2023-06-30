@@ -12,10 +12,10 @@ namespace ShipManagementEventHandler;
 
 public class EventHandlerWorker : IHostedService, IMessageHandlerCallback
 {
-    IShipWriteRepository _repository;
+    IShipCommandRepository _repository;
     IMessageHandler _messageHandler;
 
-    public EventHandlerWorker(IMessageHandler messageHandler, IShipWriteRepository repository)
+    public EventHandlerWorker(IMessageHandler messageHandler, IShipCommandRepository repository)
     {
         _messageHandler = messageHandler;
         _repository = repository;

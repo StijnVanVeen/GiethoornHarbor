@@ -4,8 +4,8 @@ using ShipsManagementAPI.Events;
 using ShipsManagementAPI.Mappers;
 using ShipsManagementAPI.Messaging;
 using ShipsManagementAPI.Model;
-using ShipsManagementAPI.Queries;
-using ShipsManagementAPI.Writes;
+using ShipsManagementAPI.Repositories.CommandRepositories;
+using ShipsManagementAPI.Repositories.QueryRepositories;
 
 namespace ShipsManagementAPI.Controllers;
 
@@ -13,13 +13,13 @@ namespace ShipsManagementAPI.Controllers;
 [Route("/api/[controller]")]
 public class ShipsController : ControllerBase
 {
-    private readonly IShipWriteRepository _shipWriteRepository;
+    private readonly IShipCommandRepository _shipCommandRepository;
     private readonly IShipQueryRepository _shipQueryRepository;
     private readonly IMessagePublisher _messagePublisher;
     
-    public ShipsController(IShipQueryRepository shipQueryRepository, IShipWriteRepository shipWriteRepository,  IMessagePublisher messagePublisher)
+    public ShipsController(IShipQueryRepository shipQueryRepository, IShipCommandRepository shipCommandRepository,  IMessagePublisher messagePublisher)
     {
-        _shipWriteRepository = shipWriteRepository;
+        _shipCommandRepository = shipCommandRepository;
         _shipQueryRepository = shipQueryRepository;
         _messagePublisher = messagePublisher;
     }
@@ -50,7 +50,7 @@ public class ShipsController : ControllerBase
             if (ModelState.IsValid)
             {
                 Ship ship = requestObject.MapToShip();
-                var shipId = await _shipWriteRepository.Insert(ship);
+                var shipId = await _shipCommandRepository.Insert(ship);
 
                 await _messagePublisher.PublishMessageAsync(requestObject.EventType, ship, 0);
                 return Ok(ship);

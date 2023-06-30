@@ -8,25 +8,25 @@ public class RefDataController : Controller
 {
     
     //update to Ship
-    IShipRepository _shipRepo;
+    IShipQueryRepository _shipQueryRepo;
 
-    public RefDataController(IShipRepository shipRepo)
+    public RefDataController(IShipQueryRepository shipQueryRepo)
     {
-        _shipRepo = shipRepo;
+        _shipQueryRepo = shipQueryRepo;
     }
 
     [HttpGet]
     [Route("ships")]
     public async Task<IActionResult> GetShips()
     {
-        return Ok(await _shipRepo.GetShipsAsync());
+        return Ok(await _shipQueryRepo.GetShipsAsync());
     }
 
     [HttpGet]
     [Route("ships/{shipsId}")]
     public async Task<IActionResult> GetShipById(int shipId)
     {
-        var ship = await _shipRepo.GetShipAsync(shipId);
+        var ship = await _shipQueryRepo.GetShipAsync(shipId);
         if (ship == null)
         {
             return NotFound();

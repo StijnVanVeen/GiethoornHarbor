@@ -66,6 +66,7 @@ public sealed class RabbitMQMessagePublisher : IMessagePublisher, IDisposable
                 _model.BasicPublish(exchange: "", routingKey: "ships", properties, body: body);
                 //if (sendTo == 1 || sendTo == 2) _model.BasicPublish(exchange: "", routingKey: "invoice", properties, body: body);
                 _model.BasicPublish(exchange: "", routingKey: "harbor", properties, body: body);
+                _model.BasicPublish(exchange: "", routingKey: "auditlog", properties, body: body);
             });
     }
 

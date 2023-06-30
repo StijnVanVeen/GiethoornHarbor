@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HarborManagementAPI.Migrations
 {
-    [DbContext(typeof(HarborManagementDBContext))]
+    [DbContext(typeof(HarborManagementSQLDBContext))]
     [Migration("20230628145704_addedtugName")]
     partial class addedtugName
     {

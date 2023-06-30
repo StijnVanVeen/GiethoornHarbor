@@ -5,6 +5,7 @@ using HarborManagementAPI.Models;
 using HarborManagementAPI.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace HarborManagementAPI.Controllers;
 
@@ -15,10 +16,12 @@ public class DockManagementController : ControllerBase
     private readonly IHarborCommandRepository _commandService;
     private readonly IHarborQueryRepository _queryService;
     private readonly IMessagePublisher _messagePublisher;
-    public DockManagementController(IHarborCommandRepository harborCommandRepository, IHarborQueryRepository harborQueryRepository ,IMessagePublisher messagePublisher) { 
+    private readonly IEventStoreRepository _eventStoreRepository;
+    public DockManagementController(IHarborCommandRepository harborCommandRepository, IHarborQueryRepository harborQueryRepository ,IMessagePublisher messagePublisher, IEventStoreRepository eventStoreRepository) { 
         _commandService = harborCommandRepository;
         _queryService = harborQueryRepository;
         _messagePublisher = messagePublisher;
+        _eventStoreRepository = eventStoreRepository;
     }
     
     [HttpGet]
@@ -65,6 +68,9 @@ public class DockManagementController : ControllerBase
                 // add dock
                 Dock? dock = requestObject.MapToDock();
                 await _commandService.AddDock(dock);
+                StoreEvent ev = new StoreEvent(requestObject.EventType, JsonSerializer.Serialize(requestObject),
+                    Guid.NewGuid().ToString());
+                await _eventStoreRepository.AddEventAsync(ev);
                 await _messagePublisher.PublishMessageAsync(requestObject.EventType, dock, 0);
 
                 return Ok(dock);

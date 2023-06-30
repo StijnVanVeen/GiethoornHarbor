@@ -10,14 +10,14 @@ namespace HarborManagementEventHandler;
 
 public class EventHandlerWorker : IHostedService, IMessageHandlerCallback
 {
-    IShipWriteRepository _shipRepo;
-    IDockWriteRepository _dockRepo;
-    IArrivalWriteRepository _arrivalRepo;
-    ITugWriteRepository _tugRepo;
-    IDepartureWriteRepository _departureRepo;
+    IShipCommandRepository _shipRepo;
+    IDockCommandRepository _dockRepo;
+    IArrivalCommandRepository _arrivalRepo;
+    ITugCommandRepository _tugRepo;
+    IDepartureCommandRepository _departureRepo;
     IMessageHandler _messageHandler;
 
-    public EventHandlerWorker(IMessageHandler messageHandler, IShipWriteRepository shipRepo, IDockWriteRepository dockRepo, IArrivalWriteRepository arrivalRepo, ITugWriteRepository tugRepo, IDepartureWriteRepository departureRepo)
+    public EventHandlerWorker(IMessageHandler messageHandler, IShipCommandRepository shipRepo, IDockCommandRepository dockRepo, IArrivalCommandRepository arrivalRepo, ITugCommandRepository tugRepo, IDepartureCommandRepository departureRepo)
     {
         _messageHandler = messageHandler;
         _shipRepo = shipRepo;
@@ -88,10 +88,9 @@ public class EventHandlerWorker : IHostedService, IMessageHandlerCallback
                 case "ShipDeparted":
                     await HandleAsync(messageObject.Property("data").Value.ToObject<ShipDeparted>());
                     break;
-                /*
-                case "MaintenanceJobFinished":
-                    await HandleAsync(messageObject.ToObject<MaintenanceJobFinished>());
-                    break;*/
+                case "DepartureUpdated":
+                    await HandleAsync(messageObject.Property("data").Value.ToObject<DepartureUpdated>());
+                    break;
             }
         }
         catch (Exception ex)
@@ -294,7 +293,7 @@ public class EventHandlerWorker : IHostedService, IMessageHandlerCallback
 
     private async Task<bool> HandleAsync(ShipDeparted e)
     {
-        Log.Information("Ship Departed: id ={ArrivalId}, shipId = {ShipId}, Dock = {DockId}, At= {DepartureDate} ",
+        Log.Information("Ship Departed: id ={departureId}, shipId = {ShipId}, Dock = {DockId}, At= {DepartureDate} ",
             e.Id, e.ShipId, e.DockId, e.DepartureDate);
 
         try
@@ -311,6 +310,30 @@ public class EventHandlerWorker : IHostedService, IMessageHandlerCallback
         catch (DbUpdateException)
         {
             Log.Warning("Skipped adding Departure with departure id {arrivalId}.", e.Id);
+        }
+
+        return true;
+    }
+    
+    private async Task<bool> HandleAsync(DepartureUpdated e)
+    {
+        Log.Information("Departure Updated: id ={departureId}, shipId = {ShipId}, Dock = {DockId}, At= {DepartureDate} ",
+            e.Id, e.ShipId, e.DockId, e.DepartureDate);
+
+        try
+        {
+            await _departureRepo.Update(new Departure
+            {
+                Id = e.Id,
+                ShipId = e.ShipId,
+                DockId = e.DockId,
+                DepartureDate = e.DepartureDate,
+                LeftHarbor = e.LeftHarbor
+            });
+        }
+        catch (DbUpdateException)
+        {
+            Log.Warning("Skipped updating Departure with departure id {DepartureId}.", e.Id);
         }
 
         return true;

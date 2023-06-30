@@ -63,7 +63,8 @@ public sealed class RabbitMQMessagePublisher : IMessagePublisher, IDisposable
                 var body = Encoding.UTF8.GetBytes(data);
                 IBasicProperties properties = _model.CreateBasicProperties();
                 properties.Headers = new Dictionary<string, object> { { "MessageType", messageType } };
-                if (sendTo == 0 || sendTo == 2) _model.BasicPublish(exchange: "", routingKey: "harbor", properties, body: body);
+                _model.BasicPublish(exchange: "", routingKey: "harbor", properties, body: body);
+                _model.BasicPublish(exchange: "", routingKey: "auditlog", properties, body: body);
                 //if (sendTo == 1 || sendTo == 2) _model.BasicPublish(exchange: "", routingKey: "invoice", properties, body: body);
                 //_model.BasicPublish(exchange: "", routingKey: "customer", body: body);
             });
@@ -83,6 +84,8 @@ public sealed class RabbitMQMessagePublisher : IMessagePublisher, IDisposable
                 //_model.QueueDeclare(_queue, exclusive: false);
                 _model.QueueDeclare("", durable: true, exclusive: false, autoDelete: false);
                                                      _model.QueueDeclare("ships", durable: true, exclusive: false, autoDelete: false);
+                                                     _model.QueueDeclare("auditlog", durable: true, exclusive: false, autoDelete: false);
+                                                     _model.QueueDeclare("harbor", durable: true, exclusive: false, autoDelete: false);
                 //_model.QueueDeclare("_queue", durable: true, exclusive: false, autoDelete: false);
             });
     }

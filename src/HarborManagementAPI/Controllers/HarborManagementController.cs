@@ -6,6 +6,10 @@ using HarborManagementAPI.Repositories;
 using HarborManagementAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MongoDB.Bson;
+using Serilog;
+using System.Text.Json;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace HarborManagementAPI.Controllers
 {
@@ -16,11 +20,15 @@ namespace HarborManagementAPI.Controllers
         private readonly IHarborCommandRepository _commandService;
         private readonly IHarborQueryRepository _queryService;
         private readonly IMessagePublisher _messagePublisher;
+        private readonly IEventStoreRepository _eventStoreRepository;
+        private readonly IShipQueryRepository _shipQueryRepository;
         
-        public HarborManagementController(IHarborCommandRepository harborCommandRepository, IHarborQueryRepository harborQueryRepository ,IMessagePublisher messagePublisher) { 
+        public HarborManagementController(IHarborCommandRepository harborCommandRepository, IHarborQueryRepository harborQueryRepository ,IMessagePublisher messagePublisher, IEventStoreRepository eventStoreRepository, IShipQueryRepository shipQueryRepository){ 
             _commandService = harborCommandRepository;
             _queryService = harborQueryRepository;
             _messagePublisher = messagePublisher;
+            _eventStoreRepository = eventStoreRepository;
+            _shipQueryRepository = shipQueryRepository;
         }
 
         [HttpGet]
@@ -70,11 +78,16 @@ namespace HarborManagementAPI.Controllers
                 if (ModelState.IsValid)
                 {
                     Dock? dock = await _queryService.GetDockAsync(requestObject.DockId);
+                    Ship? ship = await _shipQueryRepository.GetShipAsync(requestObject.ShipId);
                     // should check ship too
-                    if (dock != null && dock.Available)
+                    if (dock != null && dock.Available && ship != null)
                     {
                         Arrival arrival = requestObject.MapToArrival();
                         await _commandService.AddArrivalAsync(arrival);
+
+                        StoreEvent ev = new StoreEvent(requestObject.EventType, JsonSerializer.Serialize(requestObject),
+                            Guid.NewGuid().ToString());
+                        await _eventStoreRepository.AddEventAsync(ev);
                         await _messagePublisher.PublishMessageAsync(requestObject.EventType, arrival, 0);
 
                         return Ok(arrival);
@@ -108,6 +121,9 @@ namespace HarborManagementAPI.Controllers
                     }
                     Departure departure = requestObject.MapToDeparture();
                     await _commandService.AddDepartureAsync(departure);
+                    StoreEvent ev = new StoreEvent(requestObject.EventType, JsonSerializer.Serialize(requestObject),
+                        Guid.NewGuid().ToString());
+                    await _eventStoreRepository.AddEventAsync(ev);
                     await _messagePublisher.PublishMessageAsync(requestObject.EventType, departure, 0);
                     //return CreatedAtRoute("GetDepartureById", new { id = departure.Id }, departure);
                     return Ok(departure);

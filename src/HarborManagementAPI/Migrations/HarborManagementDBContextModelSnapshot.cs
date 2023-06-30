@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HarborManagementAPI.Migrations
 {
-    [DbContext(typeof(HarborManagementDBContext))]
+    [DbContext(typeof(HarborManagementSQLDBContext))]
     partial class HarborManagementDBContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

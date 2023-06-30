@@ -9,12 +9,12 @@ IHost host = Host
     {
         services.UseRabbitMQMessageHandler(hostContext.Configuration);
         
-        services.AddScoped<IShipWriteRepository, MongoShipWriteRepository>();
-        services.AddScoped<IDockWriteRepository, MongoDockWriteRepository>();
-        services.AddScoped<IArrivalWriteRepository, MongoArrivalWriteWriteRepository>();
-        services.AddScoped<ITugWriteRepository, MongoTugWriteRepository>();
-        services.AddScoped<IDepartureWriteRepository, MongoDepartureWriteRepository>();
-        services.AddScoped<IHarborContext, HarborContext>();
+        services.AddScoped<IShipCommandRepository, MongoShipCommandRepository>();
+        services.AddScoped<IDockCommandRepository, MongoDockCommandRepository>();
+        services.AddScoped<IArrivalCommandRepository, MongoArrivalCommandCommandRepository>();
+        services.AddScoped<ITugCommandRepository, MongoTugCommandRepository>();
+        services.AddScoped<IDepartureCommandRepository, MongoDepartureCommandRepository>();
+        services.AddScoped<IHarborContext, HarborMongoContext>();
         services.AddHostedService<EventHandlerWorker>();
     })
     .UseSerilog((hostContext, loggerConfiguration) =>

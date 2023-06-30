@@ -16,17 +16,19 @@ builder.Host.UseSerilog((context, logContext) =>
 
 // add DBContext
 var sqlConnectionString = builder.Configuration.GetConnectionString("HarborManagementCN");
-builder.Services.AddDbContext<HarborManagementDBContext>(options => options.UseSqlServer(sqlConnectionString));
+builder.Services.AddDbContext<HarborManagementSQLDBContext>(options => options.UseSqlServer(sqlConnectionString));
 builder.Services.UseRabbitMQMessagePublisher(builder.Configuration);
+
 // Add services to the container.
-//builder.Services.AddScoped<IHarborManagementService, HarborManagementService>();
+
 builder.Services.AddScoped<IHarborCommandRepository, SqlServerHarborCommandRepository>();
 builder.Services.AddScoped<IHarborQueryRepository, MongoHarborQueryRepository>();
-builder.Services.AddScoped<IShipRepository, MongoRefDataRepository>();
-builder.Services.AddScoped<IShipContext, ShipContext>();
-builder.Services.AddScoped<IHarborContext, HarborContext>();
-var harborManagementConnectionString = builder.Configuration.GetConnectionString("HarborManagementCN");
-//builder.Services.AddTransient<IShipRepository>((sp) => new SqlServerRefDataRepository(harborManagementConnectionString));
+builder.Services.AddScoped<IShipQueryRepository, MongoRefDataQueryRepository>();
+builder.Services.AddScoped<IEventStoreRepository, MongoEventStoreRepository>();
+builder.Services.AddScoped<IShipContext, ShipRefMongoContext>();
+builder.Services.AddScoped<IHarborContext, HarborMongoContext>();
+builder.Services.AddScoped<IEventStoreContext, EventStoreMongoContext>();
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -47,7 +49,7 @@ app.UseSwaggerUI(c =>
 
 using (var scope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope())
 {
-    scope.ServiceProvider.GetService<HarborManagementDBContext>().MigrateDB();
+    scope.ServiceProvider.GetService<HarborManagementSQLDBContext>().MigrateDB();
 }
 
 app.UseHttpsRedirection();
