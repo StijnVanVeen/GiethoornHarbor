@@ -1,5 +1,4 @@
-﻿using AuditlogService;
-using Pitstop.Infrastructure.Messaging.Configuration;
+﻿using Pitstop.Infrastructure.Messaging.Configuration;
 
 IHost host = Host
     .CreateDefaultBuilder(args)
